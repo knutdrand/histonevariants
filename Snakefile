@@ -7,3 +7,11 @@ rule bwa_map:
         "mapped_reads/A.bam"
     shell:
         "bwa mem {input} | samtools view -Sb - > {output}"
+
+rule qc:
+    input:
+	"reads/{sample}.fastq.gz",
+    output:
+        "qc/{sample}_fastqc/fastqc_data.txt"
+    shell:
+        "fastqc {input}"
