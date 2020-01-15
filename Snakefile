@@ -1,10 +1,10 @@
 rule bwa_map:
     input:
-        "data/genome.fa",
+        "../data/mm10.fa",
 	"reads/{name}_R1_001.fastq.gz",
         "reads/{name}_R2_001.fastq.gz"
     output:
-        "mapped_reads/A.bam"
+        "mapped_reads/{name}.bam"
     shell:
         "bwa mem {input} | samtools view -Sb - > {output}"
 
