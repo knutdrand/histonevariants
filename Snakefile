@@ -5,8 +5,9 @@ rule bwa_map:
         "reads/{name}_R2_001.fastq.gz"
     output:
         "mapped_reads/{name}.bam"
+    threads: 16
     shell:
-        "bwa mem {input} | samtools view -Sb - > {output}"
+        "bwa mem -t {threads} {input} | samtools view -Sb - > {output}"
 
 rule qc:
     input:
