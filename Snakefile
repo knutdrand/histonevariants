@@ -82,6 +82,6 @@ rule export_track:
     input:
         "coverage/{sample}.bw"
     output:
-        "/var/www/html/trackhub_knut/mm10/{sample}.bw"
+        "../../var/www/html/trackhub_knut/mm10/{sample}.bw"
     shell:
         "mv {input} {output}"
