@@ -31,4 +31,4 @@ rule fragment_bed:
     output:
         "fragment_files/{sample}_fragments.bed"
     shell:
-        "macs2 randsample -i {input} -f BAMPE -p 100 -o {output}
+        "macs2 randsample -i {input} -f BAMPE -p 100 -o {output}"
