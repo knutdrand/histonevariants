@@ -1,10 +1,12 @@
 rule trim_adaptors:
     input:
-        "reads/{name}.fastq.gz"
+        "reads/{name}_R1_001.fastq.gz",
+        "reads/{name}_R2_001.fastq.gz"
     output:
-        temp("trimmed_reads/{name}.fastq.gz")
+        temp("trimmed_reads/{name}_R1_001.fastq.gz"),
+        temp("trimmed_reads/{name}_R2_001.fastq.gz")
     shell:
-        'cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -m 20 {input} | cutadapt -a "AATGATACGGCGACCACCGAGATCTACAC" -m 20 - -o {output}'
+        'cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -A "AATGATACGGCGACCACCGAGATCTACAC" -o {output[0]} -p {output[1]} {input}'
 
 rule bwa_map:
     input:
