@@ -4,7 +4,7 @@ rule trim_adaptors:
     output:
         temp("trimmed_reads/{name}.fastq.gz")
     shell:
-        cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -m 20 {input} | cutadapt -a "AATGATACGGCGACCACCGAGATCTACAC" -m 20 - -o {output}
+        'cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -m 20 {input} | cutadapt -a "AATGATACGGCGACCACCGAGATCTACAC" -m 20 - -o {output}'
 
 rule bwa_map:
     input:
