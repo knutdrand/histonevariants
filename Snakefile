@@ -2,7 +2,7 @@ rule trim_adaptors:
     input:
         "reads/{name}.fastq.gz"
     output:
-        temp("trimmed_reads/{name}.fastq.gz)
+        temp("trimmed_reads/{name}.fastq.gz")
     shell:
         cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -m 20 {input} | cutadapt -a "AATGATACGGCGACCACCGAGATCTACAC" -m 20 - -o {output}
 
