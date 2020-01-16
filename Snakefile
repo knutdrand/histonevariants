@@ -10,14 +10,25 @@ rule trim_adaptors:
 
 rule bwa_map:
     input:
-        "../data/mm10.fa",
         "trimmed_reads/{name}_R1_001.fastq.gz",
         "trimmed_reads/{name}_R2_001.fastq.gz"
     output:
         "mapped_reads/{name}.bam"
     threads: 16
     shell:
-        "bwa mem -t {threads} {input} | samtools view -Sb - > {output}"
+        "bwa mem -t {threads} ../data/mm10.fa {input} | samtools view -Sb - > {output}"
+
+rule filter_alignments:
+    input:
+        "mapped_reads/{name}.bam"
+    output:
+        "logs/{name}.flagstat",
+        "filtered_alignments/{name}.bam"
+    shell:
+        """
+	samtools flagstat {input} > {output[0]}
+	samtools view -F 1804 -f 2 -u {input} > {output[1]}
+	"""
 
 rule qc:
     input:
@@ -27,10 +38,42 @@ rule qc:
     shell:
         "fastqc {input}"
 
+rule sort_bed:
+    input:
+        "fragments/{sample}.bed"
+    output:
+        "sorted_fragments/{sample}.bed"
+    shell:
+        "bedtools sort -i {input} > {output}"
+
 rule fragment_bed:
     input:
-        "mapped_reads/{sample}.bam"
+        "filtered_alignments/{sample}.bam"
     output:
-        "fragment_files/{sample}_fragments.bed"
+        temp("fragments/{sample}.bed")
     shell:
         "macs2 randsample -i {input} -f BAMPE -p 100 -o {output}"
+
+rule get_coverage:
+    input:
+        "sorted_fragments/{sample}.bed"
+    output:
+        temp("coverage/{sample}.bdg")
+    shell:
+        "bedtools genomecov -bg -i {input} -g ../data/mm10.chrom.sizes > {output}"
+
+rule make_track:
+    input:
+        "coverage/{sample}.bdg"
+    output:
+        temp("coverage/{sample}.bw")
+    shell:
+        "./bdg2bw {input} data/mm10.chrom.sizes"
+
+rule export_track:
+    input:
+        "coverage/{sample}.bw"
+    output:
+        "/var/www/html/trackhub_knut/mm10/{sample}.bw"
+    shell:
+        "mv {input} {output}"
