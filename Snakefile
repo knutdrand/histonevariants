@@ -52,7 +52,7 @@ rule fragment_bed:
     output:
         temp("fragments/{sample}.bed")
     shell:
-        "macs2 randsample -i {input} -f BAMPE -p 100 -o {output}"
+        "/user/local/bin/macs2 randsample -i {input} -f BAMPE -p 100 -o {output}"
 
 rule get_coverage:
     input:
