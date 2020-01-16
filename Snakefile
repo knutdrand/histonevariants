@@ -52,15 +52,23 @@ rule fragment_bed:
     output:
         temp("fragments/{sample}.bed")
     shell:
-        "/user/local/bin/macs2 randsample -i {input} -f BAMPE -p 100 -o {output}"
+        "/usr/local/bin/macs2 randsample -i {input} -f BAMPE -p 100 -o {output}"
 
 rule get_coverage:
     input:
-        "sorted_fragments/{sample}.bed"
+        "unique_fragments/{sample}.bed"
     output:
         temp("coverage/{sample}.bdg")
     shell:
-        "bedtools genomecov -bg -i {input} -g ../data/mm10.chrom.sizes > {output}"
+        "bedtools genomecov -bg -i {input} -g data/mm10.chrom.sizes > {output}"
+
+rule filter_duplicates:
+    input:
+        "sorted_fragments/{sample}.bed"
+    output:
+        "unique_fragments/{sample}.bed"
+    shell:
+        "macs2 filterdup -i {input} --keep-dup=1 -o {output}"
 
 rule make_track:
     input:
