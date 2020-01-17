@@ -1,17 +1,39 @@
+from snakemake.remote.SFTP import RemoteProvider
+configfile:"config.json"
+
+track_hub = "../../var/www/html/trackhub_knut/mm10/"
+NELS="u1452@nelstor0.cbu.uib.no:/elixir-chr/nels/users/u1452/Projects/UiO_Dahl_Chromatin_2018/MadeleineFosslie_MF/200110_A00943.B.Project_Fosslie-Libs12-2020-01-06/"
+key="u1452@nelstor0.cbu.uib.no.key"
+
+rule import_data:
+    output:
+        "reads/{sample}_L{lane}_R{read}.fastq.gz"
+    shell:
+        "scp -i {key} {NELS}Sample_{wildcards.sample}/{wildcards.sample}_S*_L00{wildcards.lane}_R{wildcards.read}_001.fastq.gz {output}"
+
+rule merge_lanes:
+    input:
+        "reads/{sample}_L1_R{read}.fastq.gz",
+        "reads/{sample}_L2_R{read}.fastq.gz"
+    output:
+        temp("merged_reads/{sample}_R{read}.fastq.gz")
+    shell:
+        "zcat {input} > {output}"
+
 rule trim_adaptors:
     input:
-        "reads/{name}_R1_001.fastq.gz",
-        "reads/{name}_R2_001.fastq.gz"
+        "merged_reads/{name}_R1.fastq.gz",
+        "merged_reads/{name}_R2.fastq.gz"
     output:
-        temp("trimmed_reads/{name}_R1_001.fastq.gz"),
-        temp("trimmed_reads/{name}_R2_001.fastq.gz")
+        temp("trimmed_reads/{name}_R1.fastq.gz"),
+        temp("trimmed_reads/{name}_R2.fastq.gz")
     shell:
         'cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -A "AATGATACGGCGACCACCGAGATCTACAC" -o {output[0]} -p {output[1]} {input}'
 
 rule bwa_map:
     input:
-        "trimmed_reads/{name}_R1_001.fastq.gz",
-        "trimmed_reads/{name}_R2_001.fastq.gz"
+        "trimmed_reads/{name}_R1.fastq.gz",
+        "trimmed_reads/{name}_R2.fastq.gz"
     output:
         "mapped_reads/{name}.bam"
     threads: 16
