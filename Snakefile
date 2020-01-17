@@ -4,6 +4,10 @@ track_hub = "../../var/www/html/trackhub_knut/mm10/"
 NELS="u1452@nelstor0.cbu.uib.no:/elixir-chr/nels/users/u1452/Projects/UiO_Dahl_Chromatin_2018/MadeleineFosslie_MF/200110_A00943.B.Project_Fosslie-Libs12-2020-01-06/"
 key="../u1452@nelstor0.cbu.uib.no.key"
 
+rule all:
+    input:
+        expand(track_hub+"{name}_treat_pileup.bw", name=config["samples"])
+
 rule import_data:
     output:
         "reads/{sample}_L{lane}_R{read}.fastq.gz"
@@ -17,7 +21,7 @@ rule merge_lanes:
     output:
         temp("merged_reads/{sample}_R{read}.fastq.gz")
     shell:
-        "zcat {input} > {output}"
+        "cat {input} > {output}"
 
 rule trim_adaptors:
     input:
@@ -103,6 +107,10 @@ rule export_track:
     input:
         "coverage/{sample}.bw"
     output:
-        "../../var/www/html/trackhub_knut/mm10/{sample}.bw"
+        track_hub+ "{sample}.bw"
     shell:
-        "mv {input} {output}"
+        """
+	mv {input} {output}
+	python3 ../create_hub.py ../../var/www/html/trackhub_knut/mm10/ > ../../var/www/html/trackhub_knut/mm10/trackDb.txt
+	"""
+	
