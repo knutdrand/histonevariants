@@ -6,7 +6,7 @@ key="../u1452@nelstor0.cbu.uib.no.key"
 
 rule all:
     input:
-        expand(track_hub+"{name}_treat_pileup.bw", name=config["samples"])
+        expand(track_hub+"{name}.bw", name=config["samples"])
 
 rule import_data:
     output:
