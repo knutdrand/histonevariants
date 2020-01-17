@@ -1,4 +1,3 @@
-from snakemake.remote.SFTP import RemoteProvider
 configfile:"config.json"
 
 track_hub = "../../var/www/html/trackhub_knut/mm10/"
