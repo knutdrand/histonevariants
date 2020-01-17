@@ -10,7 +10,7 @@ rule all:
 
 rule import_data:
     output:
-        "reads/{sample}_L{lane}_R{read}.fastq.gz"
+        temp("reads/{sample}_L{lane}_R{read}.fastq.gz")
     shell:
         "scp -i {key} {NELS}Sample_{wildcards.sample}/{wildcards.sample}_S*_L00{wildcards.lane}_R{wildcards.read}_001.fastq.gz {output}"
 
@@ -38,7 +38,7 @@ rule bwa_map:
         "trimmed_reads/{name}_R1.fastq.gz",
         "trimmed_reads/{name}_R2.fastq.gz"
     output:
-        "mapped_reads/{name}.bam"
+        temp("mapped_reads/{name}.bam")
     threads: 16
     shell:
         "bwa mem -t {threads} ../data/mm10.fa {input} | samtools view -Sb - > {output}"
@@ -48,7 +48,7 @@ rule filter_alignments:
         "mapped_reads/{name}.bam"
     output:
         "logs/{name}.flagstat",
-        "filtered_alignments/{name}.bam"
+        temp("filtered_alignments/{name}.bam")
     shell:
         """
 	samtools flagstat {input} > {output[0]}
