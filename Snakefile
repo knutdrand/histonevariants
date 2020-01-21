@@ -116,8 +116,8 @@ rule export_track:
 	
 rule filter_repeats:
     input:
-        repeats/mouse_repeats.bed.gz
+        "data/mouse_repeats.bed.gz"
     output:
-        repeats/{name}.bed.gz
+        "repeats/{name}.bed.gz"
     shell:
-        zcat {input} | awk "{if (($3-$2)>250){print}}" | grep {name} | gzip > {output}
+        "zcat {input} | awk '{{if (($3-$2)>250){{print}}}}' | grep {wildcards.name} | gzip > {output}"
