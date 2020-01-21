@@ -114,3 +114,10 @@ rule export_track:
 	python3 ../create_hub.py ../../var/www/html/trackhub_knut/mm10/ > ../../var/www/html/trackhub_knut/mm10/trackDb.txt
 	"""
 	
+rule filter_repeats:
+    input:
+        repeats/mouse_repeats.bed.gz
+    output:
+        repeats/{name}.bed.gz
+    shell:
+        zcat {input} | awk "{if (($3-$2)>250){print}}" | grep {name} | gzip > {output}
