@@ -8,6 +8,10 @@ rule all:
     input:
         expand(track_hub+"{name}.bw", name=config["samples"])
 
+rule all_repeats:
+    input:
+        expand("repeats/{name}.bed.gz", name=["L1Md_T", "L1Md_A", "L1Md_F", "L1Md_G"])
+
 rule import_data:
     output:
         temp("reads/{sample}_L{lane}_R{read}.fastq.gz")
@@ -121,3 +125,4 @@ rule filter_repeats:
         "repeats/{name}.bed.gz"
     shell:
         "zcat {input} | awk '{{if (($3-$2)>250){{print}}}}' | grep {wildcards.name} | gzip > {output}"
+
