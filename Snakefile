@@ -5,7 +5,11 @@ NELS="u1452@nelstor0.cbu.uib.no:/elixir-chr/nels/users/u1452/Projects/UiO_Dahl_C
 key="../u1452@nelstor0.cbu.uib.no.key"
 rule all:
     input:
-        expand(track_hub+"{name}.bw", name=config["samples"])
+        expand(track_hub+"2019-{name}.bw", name=config["samples"])
+
+rule all_2015:
+    input:
+        expand(track_hub+"2015-{name}.bw", name=config["2015_samples"])
 
 rule all_repeats:
     input:

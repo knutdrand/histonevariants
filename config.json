@@ -19,7 +19,7 @@
 	     "20-INP-8c",
 	     "21-INP-mor",
 	     "22-INP-bla"],
- "n_lanes": {"2015": 4, "2019": 2}
+ "2015_samples": ["S1_INPUT", "S3_H2AZ", "S5_TY"]
 }
 
 
