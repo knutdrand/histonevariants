@@ -26,7 +26,7 @@ rule merge_lanes:
         "reads/2019/{sample}_L1_R{read}.fastq.gz",
         "reads/2019/{sample}_L2_R{read}.fastq.gz",
     output:
-        temp("merged_reads/{source}-{sample}_R{read}.fastq.gz")
+        temp("merged_reads/2019-{sample}_R{read}.fastq.gz")
     shell:
         "cat {input} > {output}"
 
