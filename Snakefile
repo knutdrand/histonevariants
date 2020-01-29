@@ -127,7 +127,7 @@ rule get_fragment_sizes:
     output:
         "fragment_sizes/{sample}.png"
     shell:
-        "chiptools {input} 500 2 {output}"
+        "chiptools sizehist {input} 500 2 {output}"
 
 rule export_track:
     input:
