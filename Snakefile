@@ -19,7 +19,7 @@ rule import_data:
     output:
         temp("reads/2019/{sample}_L{lane}_R{read}.fastq.gz")
     shell:
-        "scp -i {key} {NELS}Sample_S{wildcards.sample}/S{wildcards.sample}_S*_L00{wildcards.lane}_R{wildcards.read}_001.fastq.gz {output}"
+        "scp -i {key} {NELS}Sample_S{wildcards.sample}/{wildcards.sample}_S*_L00{wildcards.lane}_R{wildcards.read}_001.fastq.gz {output}"
 
 rule merge_lanes:
     input:
