@@ -121,6 +121,14 @@ rule make_track:
     shell:
         "./bdg2bw {input} data/mm10.chrom.sizes"
 
+rule get_fragment_sizes:
+    input:
+        "unique_fragments/{sample}.bed"
+    output:
+        "fragment_sizes/{sample}.png"
+    shell:
+        "chiptools {input} 500 2 {output}"
+
 rule export_track:
     input:
         "coverage/{sample}.bw"
