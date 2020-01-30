@@ -5,7 +5,7 @@ NELS="u1452@nelstor0.cbu.uib.no:/elixir-chr/nels/users/u1452/Projects/UiO_Dahl_C
 key="../u1452@nelstor0.cbu.uib.no.key"
 rule all:
     input:
-        expand(track_hub+"2019-{name}.bw", name=config["samples"])
+        expand(track_hub+"V2-2019-{name}.bw", name=config["samples"])
 
 rule all_2015:
     input:
@@ -46,10 +46,11 @@ rule trim_adaptors:
         "merged_reads/{name}_R1.fastq.gz",
         "merged_reads/{name}_R2.fastq.gz"
     output:
-        temp("trimmed_reads/{name}_R1.fastq.gz"),
-        temp("trimmed_reads/{name}_R2.fastq.gz")
+        temp("trimmed_reads/V2-{name}_R1.fastq.gz"),
+        temp("trimmed_reads/V2-{name}_R2.fastq.gz"),
+        'logs/cutadapt_{name}.log'
     shell:
-        'cutadapt -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -A "AATGATACGGCGACCACCGAGATCTACAC" -o {output[0]} -p {output[1]} {input}'
+        'cutadapt --nextseq-trim=20 -m 10  -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -A "AATGATACGGCGACCACCGAGATCTACAC" -o {output[0]} -p {output[1]} {input} > output[2]'
 
 rule bwa_map:
     input:
@@ -79,7 +80,7 @@ rule qc:
     output:
         "qc/{sample}_fastqc/fastqc_data.txt"
     shell:
-        "fastqc {input}"
+        "fastqc {input} "
 
 rule sort_bed:
     input:
