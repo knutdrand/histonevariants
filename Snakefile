@@ -49,8 +49,9 @@ rule trim_adaptors:
         temp("trimmed_reads/V2-{name}_R1.fastq.gz"),
         temp("trimmed_reads/V2-{name}_R2.fastq.gz"),
         'logs/cutadapt_{name}.log'
+    threads: 16
     shell:
-        'cutadapt --nextseq-trim=20 -m 10  -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -A "AATGATACGGCGACCACCGAGATCTACAC" -o {output[0]} -p {output[1]} {input} > output[2]'
+        'cutadapt --nextseq-trim=20 -m 10 -j {threads} -a "GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" -A "AATGATACGGCGACCACCGAGATCTACAC" -o {output[0]} -p {output[1]} {input} > {output[2]}'
 
 rule bwa_map:
     input:
