@@ -68,7 +68,7 @@ rule filter_alignments:
         "mapped_reads/{name}.bam"
     output:
         "logs/{name}.flagstat",
-        temp("filtered_alignments/{name}.bam")
+        "filtered_alignments/{name}.bam"
     shell:
         """
 	samtools flagstat {input} > {output[0]}
