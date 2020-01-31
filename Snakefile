@@ -81,7 +81,7 @@ rule filter_alignments_mapq:
     output:
         "filtered_alignments_mapq/{name}.bam"
     shell:
-	"samtools view -q 30 -u {input} > {output[1]}"
+        "samtools view -q 30 -u {input} > {output}"
 
 rule qc:
     input:
