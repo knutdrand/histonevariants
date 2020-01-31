@@ -72,8 +72,16 @@ rule filter_alignments:
     shell:
         """
 	samtools flagstat {input} > {output[0]}
-	samtools view -F 1804 -f 2 -q 30 -u {input} > {output[1]}
+	samtools view -F 1804 -f 2 -u {input} > {output[1]}
 	"""
+
+rule filter_alignments:
+    input:
+        "filtered_alignments/{name}.bam"
+    output:
+        "filtered_alignments_mapq/{name}.bam"
+    shell:
+	"samtools view -q 30 -u {input} > {output[1]}"
 
 rule qc:
     input:
@@ -93,7 +101,7 @@ rule sort_bed:
 
 rule fragment_bed:
     input:
-        "filtered_alignments/{sample}.bam"
+        "filtered_alignments_mapq/{sample}.bam"
     output:
         temp("fragments/{sample}.bed")
     shell:
