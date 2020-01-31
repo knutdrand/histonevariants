@@ -79,7 +79,7 @@ rule filter_alignments_mapq:
     input:
         "filtered_alignments/{name}.bam"
     output:
-        "filtered_alignments_mapq/{name}.bam"
+        temp("filtered_alignments_mapq/{name}.bam")
     shell:
         "samtools view -q 30 -u {input} > {output}"
 
