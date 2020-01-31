@@ -121,7 +121,7 @@ rule filter_duplicates:
     output:
         "unique_fragments/{sample}.bed"
     shell:
-        "macs2 filterdup -i {input} --keep-dup=1 -o {output}"
+        "chiptools filterdup {input} > {output}"
 
 rule make_track:
     input:
