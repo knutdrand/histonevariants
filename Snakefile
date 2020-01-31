@@ -72,7 +72,7 @@ rule filter_alignments:
     shell:
         """
 	samtools flagstat {input} > {output[0]}
-	samtools view -F 1804 -f 2 -u {input} > {output[1]}
+	samtools view -F 1804 -f 2 -q 30 -u {input} > {output[1]}
 	"""
 
 rule qc:
