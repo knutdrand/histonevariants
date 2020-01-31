@@ -75,7 +75,7 @@ rule filter_alignments:
 	samtools view -F 1804 -f 2 -u {input} > {output[1]}
 	"""
 
-rule filter_alignments:
+rule filter_alignments_mapq:
     input:
         "filtered_alignments/{name}.bam"
     output:
