@@ -135,7 +135,8 @@ rule get_fragment_sizes:
     input:
         "unique_fragments/{sample}.bed"
     output:
-        "fragment_sizes/{sample}.png"
+        "fragment_sizes/{sample}.png",
+        "fragment_sizes/{sample}.npy"
     shell:
         "chiptools sizehist {input} 500 2 {output}"
 
