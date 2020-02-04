@@ -138,12 +138,12 @@ rule make_track:
 
 rule get_fragment_sizes:
     input:
-        "unique_fragments/{sample}.bed"
+        "unique_fragments/{sample}.bed.gz"
     output:
         "fragment_sizes/{sample}.png",
         "fragment_sizes/{sample}.npy"
     shell:
-        "chiptools sizehist {input} 500 2 {output}"
+        "zcat {input} | chiptools sizehist - 500 2 {output}"
 
 rule export_track:
     input:
