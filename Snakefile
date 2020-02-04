@@ -15,6 +15,11 @@ rule all_repeats:
     input:
         expand("repeats/{name}.bed.gz", name=["L1Md_T", "L1Md_A", "L1Md_F", "L1Md_G"])
 
+rule all_fragment_sizes:
+    input:
+        expand("fragment_sizes/V2-2019-{name}.npy", name=config["samples"]),
+        expand("fragment_sizes/V2-2019-{name}.png", name=config["samples"])
+
 rule import_data:
     output:
         temp("reads/2019/{sample}_L{lane}_R{read}.fastq.gz")
