@@ -73,7 +73,7 @@ rule filter_alignments:
         "mapped_reads/{name}.bam"
     output:
         "logs/{name}.flagstat",
-        temp("filtered_alignments/{name}.bam")
+        "filtered_alignments/{name}.bam"
     shell:
         """
 	samtools flagstat {input} > {output[0]}
@@ -87,6 +87,7 @@ rule filter_alignments_mapq:
         temp("filtered_alignments_mapq/{name}.bam")
     shell:
         "samtools view -q 30 -u {input} > {output}"
+
 
 rule qc:
     input:
@@ -169,4 +170,3 @@ rule import_antibody_data:
         "reads/2015/{sample}_{type}_L{lane}_R{read}.fastq.gz"
     shell:
         "mv 2015_reads/{wildcards.sample}_Z1-{wildcards.type}_L00{wildcards.lane}_R{wildcards.read}_001.fastq.gz {output}"
-   
