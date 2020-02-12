@@ -19,7 +19,7 @@ rule repeat_coverage:
         "fragments_unique/{name}.small_removed.bed",
         "repeats/{repeat}.bed.gz"
     output:
-        temp("repeat_coverage/{name}_{repeat}.bed")
+        temp("repeat_coverage/{name}/{repeat}.bed")
     shell:
         "bedtools coverage -A {input[0]} -B {input[1]} > {output}"
 
