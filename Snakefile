@@ -73,7 +73,7 @@ rule filter_alignments:
         "mapped_reads/{name}.bam"
     output:
         "logs/{name}.flagstat",
-        "filtered_alignments/{name}.bam"
+        temp("filtered_alignments/{name}.bam")
     shell:
         """
 	samtools flagstat {input} > {output[0]}
@@ -88,7 +88,6 @@ rule filter_alignments_mapq:
     shell:
         "samtools view -q 30 -u {input} > {output}"
 
-
 rule qc:
     input:
         "reads/{sample}.fastq.gz"
@@ -101,7 +100,7 @@ rule sort_bed:
     input:
         "{folder}/{sample}.bed"
     output:
-        "{folder}_sorted/{sample}.bed"
+        temp("{folder}_sorted/{sample}.bed")
     shell:
         "bedtools sort -i {input} > {output}"
 
