@@ -16,7 +16,7 @@ rule remove_small_fragments:
 
 rule repeat_coverage:
     input:
-        "fragments_unique/{name}.small_removed.bed",
+        "repeat_fragments_unique/{name}.small_removed.bed",
         "repeats/{repeat}.bed.gz"
     output:
         temp("repeat_coverage/{name}/{repeat}.bed")
