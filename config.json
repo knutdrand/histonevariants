@@ -19,7 +19,8 @@
 	     "20-INP-8c",
 	     "21-INP-mor",
 	     "22-INP-bla"],
- "2015_samples": ["S1_INPUT", "S3_H2AZ", "S5_TY"]
+ "2015_samples": ["S1_INPUT", "S3_H2AZ", "S5_TY"],
+ "repeats": ["L1Md_A", "L1Md_F", "L1Md_G", "L1Md_T"]
 }
 
 
