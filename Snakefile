@@ -1,5 +1,5 @@
 configfile:"config.json"
-
+include: "repeat_analysis.sm"
 track_hub = "../../var/www/html/trackhub_knut/mm10/"
 NELS="u1452@nelstor0.cbu.uib.no:/elixir-chr/nels/users/u1452/Projects/UiO_Dahl_Chromatin_2018/MadeleineFosslie_MF/200110_A00943.B.Project_Fosslie-Libs12-2020-01-06/"
 key="../u1452@nelstor0.cbu.uib.no.key"
@@ -99,9 +99,9 @@ rule qc:
 
 rule sort_bed:
     input:
-        "fragments/{sample}.bed"
+        "{folder}/{sample}.bed"
     output:
-        "sorted_fragments/{sample}.bed"
+        "{folder}_sorted/{sample}.bed"
     shell:
         "bedtools sort -i {input} > {output}"
 
@@ -115,7 +115,7 @@ rule fragment_bed:
 
 rule get_coverage:
     input:
-        "unique_fragments/{sample}.bed"
+        "fragments_unique/{sample}.bed"
     output:
         temp("coverage/{sample}.bdg")
     shell:
@@ -123,9 +123,9 @@ rule get_coverage:
 
 rule filter_duplicates:
     input:
-        "sorted_fragments/{sample}.bed"
+        "{folder}_sorted/{sample}.bed"
     output:
-        "unique_fragments/{sample}.bed"
+        "{folder}_unique/{sample}.bed"
     shell:
         "chiptools filterdup {input} > {output}"
 
@@ -139,7 +139,7 @@ rule make_track:
 
 rule get_fragment_sizes:
     input:
-        "unique_fragments/{sample}.bed.gz"
+        "fragments_unique/{sample}.bed.gz"
     output:
         "fragment_sizes/{sample}.png",
         "fragment_sizes/{sample}.npy"

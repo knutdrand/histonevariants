@@ -16,16 +16,16 @@ rule remove_small_fragments:
 
 rule repeat_coverage:
     input:
-        "fragments/{name}.bed",
+        "fragments_unique/{name}.small_removed.bed",
         "repeats/{repeat}.bed.gz"
     output:
         temp("repeat_coverage/{name}_{repeat}.bed")
     shell:
         "bedtools coverage -A {input[0]} -B {input[1]} > {output}"
 
-rule analyze_repeat:
-    input:
-        "repeat_coverage/{name}_{repeat}.bed"
-    shell:
-        "awk '{t = t + $3-$2}END{print t}' {input[0]} | paste wc -l {input[1]}"
+# rule analyze_repeat:
+#     input:
+#         "repeat_coverage/{name}_{repeat}.bed"
+#     shell:
+#         "awk '{t = t + $3-$2}END{print t}' {input[0]} | paste wc -l {input[1]}"
         
