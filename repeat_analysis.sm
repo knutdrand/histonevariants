@@ -8,15 +8,15 @@ rule repeat_fragments:
 
 rule remove_small_fragments:
     input:
-        "{name}.bed"
+        "{folder}/{name}.bed"
     output:
-        temp("{name}.small_removed.bed")
+        temp("{folder}_smallremoved/{name}.bed")
     shell:
         "awk '{{if (($3-$2)>50) print}}' {input} > {output}"
 
 rule repeat_coverage:
     input:
-        "repeat_fragments_unique/{name}.small_removed.bed",
+        "repeat_fragments_smallremoved_unique/{name}.bed",
         "repeats/{repeat}.bed.gz"
     output:
         temp("repeat_coverage/{name}/{repeat}.bed")
