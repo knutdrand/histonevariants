@@ -28,6 +28,6 @@ rule analyze_repeat:
         "repeat_coverage/{name}/{repeat}.bed",
         "repeat_fragments_smallremoved_unique/{name}.bed"
     output:
-        "repeat_fpkm/{name}/{repeat}.bed"
+        "repeat_fpkm/{name}/{repeat}.txt"
     shell:
          "echo $(awk '{{t+=$7;d+=$9}END{print t, d}}' {input[0]}) $(wc -l {input[1]})| awk '{{print $1/$2/$3*1000000000}}'>{output}"
