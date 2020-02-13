@@ -1,6 +1,6 @@
 rule all_repeat_fpkms:
     input:
-        expand("repeat_fpkm/{name}/{repeat}.txt", name=config["samples"], repeat=config["repeats"])
+        expand("repeat_fpkm/V2-2019-{name}/{repeat}.txt", name=config["samples"], repeat=config["repeats"])
 
 rule repeat_fragments:
     input:
@@ -38,4 +38,4 @@ rule analyze_repeat:
 
 rule repeat_enrichment:
     input:
-        "repeat_fpkm/2019-V2-{number}-{stage}-{name}/{repeat}.txt"
+        "repeat_fpkm/V2-2019-{number}-{stage}-{name}/{repeat}.txt"
