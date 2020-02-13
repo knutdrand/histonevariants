@@ -30,4 +30,4 @@ rule analyze_repeat:
     output:
         "repeat_fpkm/{name}/{repeat}.txt"
     shell:
-         "echo $(awk '{{t+=$7;d+=$9}END{print t, d}}' {input[0]}) $(wc -l {input[1]})| awk '{{print $1/$2/$3*1000000000}}'>{output}"
+         "echo $(awk '{{{{t+=$7;d+=$9}}END{{print t, d}}}}' {input[0]}) $(wc -l {input[1]})| awk '{{print $1/$2/$3*1000000000}}'>{output}"
