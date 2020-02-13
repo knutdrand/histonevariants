@@ -1,3 +1,7 @@
+rule all_repeats:
+    input:
+        expand("repeat_fpkm/{name}/{repeat}.txt", name=config["samples"], repeat=config["repeats"])
+
 rule repeat_fragments:
     input:
         "filtered_alignments/{sample}.bam"
@@ -31,3 +35,7 @@ rule analyze_repeat:
         "repeat_fpkm/{name}/{repeat}.txt"
     shell:
          "echo $(awk '{{t+=$7;d+=$9}}END{{print t, d}}' {input[0]}) $(wc -l {input[1]})| awk '{{print $1/$2/$3*1000000000}}'>{output}"
+
+rule repeat_enrichment:
+    input:
+        "repeat_fpkm/2019-V2-{number}-{stage}-{name}/{repeat}.txt"
