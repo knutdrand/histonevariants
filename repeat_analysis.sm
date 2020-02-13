@@ -23,9 +23,11 @@ rule repeat_coverage:
     shell:
         "bedtools coverage -a {input[0]} -b {input[1]} > {output}"
 
-# rule analyze_repeat:
-#     input:
-#         "repeat_coverage/{name}_{repeat}.bed"
-#     shell:
-#         "awk '{t = t + $3-$2}END{print t}' {input[0]} | paste wc -l {input[1]}"
-        
+rule analyze_repeat:
+    input:
+        "repeat_coverage/{name}/{repeat}.bed",
+        "repeat_fragments_smallremoved_unique/{name}.bed"
+    output:
+        "repeat_fpkm/{name}_{repeat}.bed"
+    shell:
+         "echo $(awk '{{t+=$7;d+=$9}END{print t, d}}' {input[0]}) $(wc -l {input[1]})| awk '{{print $1/$2/$3*1000000000}}'>{output}"
