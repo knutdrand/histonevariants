@@ -12,7 +12,7 @@ rule import_jung:
         "reads/jung/{sra}_2.fastq.gz",
     shell:
         """
-        fastq-dump --split-files --gzip {wildcards.sra} -O jung/
+        fastq-dump --split-files --gzip {wildcards.sra} -O reads/jung/
         """
 
 rule merge_jung:
