@@ -38,4 +38,40 @@ rule analyze_repeat:
 
 rule repeat_enrichment:
     input:
-        "repeat_fpkm/V2-2019-{number}-{stage}-{name}/{repeat}.txt"
+        "repeat_fpkm/V2-{source}-{index}-{stage}-{name}/{repeat}.txt",
+        "repeat_fpkm/V2-{source}-{input_index}-INP-{stage}/{repeat}.txt"
+    output:
+        "repeat_enrichment/V2-{source}-{index}-{stage}-{name}_v{input_index}/{repeat}.txt",
+    wildcard_constraints:
+        index="\d+",
+        input_index="\d+",
+        stage=".*?"
+    shell:
+        "paste {input} | awk '{{print $1/$2}}' > {output}"
+
+rule summarize_rows:
+    input:
+        expand("repeat_enrichment/V2-{{source}}-{{name}}/{repeat}.txt", repeat=config["repeats"])
+    output:
+        "repeat_enrichment/V2-{source}-{name}/ALL.csv"
+    shell:
+        "paste {input} > {output}"
+
+rule summarize_table:
+    input:
+        expand("repeat_enrichment/V2-2019-{name}/ALL.csv",
+               name=[name+"_v"+config["inputs"][name.split("-")[1]].split("-")[0] for name in config["chips"]])
+    output:
+        "repeat_enrichment/ALL.csv"
+    shell:
+        "cat $(echo '{input}') {input} > {output}"
+
+rule add_header:
+    input:
+        expand("repeat_enrichment/V2-2019-{name}/ALL.csv",
+               name=[name+"_v"+config["inputs"][name.split("-")[1]].split("-")[0] for name in config["chips"]])
+    output:
+        "repeat_enrichment/ALL.csv"
+    shell:
+        "cat $(echo '{input}') {input} > {output}"
+

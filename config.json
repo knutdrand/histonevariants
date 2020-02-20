@@ -19,8 +19,29 @@
 	     "20-INP-8c",
 	     "21-INP-mor",
 	     "22-INP-bla"],
- "2015_samples": ["S1_INPUT", "S3_H2AZ", "S5_TY"],
- "repeats": ["L1Md_A", "L1Md_F", "L1Md_G", "L1Md_T"]
+ "chips": ["1-p12-AZ-200",
+	   "2-p12-ac-100",
+	   "3-NSN-AZ-200",
+	   "4-SN-AZ-200",
+	   "5-MII-AZ-300",
+	   "6-MII-ac-80",
+	   "7-MII-33-50",
+	   "8-8c-AZ-460",
+	   "9-8c-ac-230",
+	   "10-8c-33-230",
+	   "11-mor-AZ460",
+	   "12-mor-ac230",
+	   "13-bla-AZ460",
+	   "14-bla-ac230"],
+  "2015_samples": ["S1_INPUT", "S3_H2AZ", "S5_TY"],
+ "repeats": ["L1Md_A", "L1Md_F", "L1Md_G", "L1Md_T"],
+ "inputs": {"p12": "15-INP-p12",
+	    "NSN": "16-INP-NSN",
+	    "SN": "18-INP-SN",
+	    "MII": "19-INP-MII",
+	    "8c":  "20-INP-8c",
+	    "mor": "21-INP-mor",
+	    "bla": "22-INP-bla"}
 }
 
 

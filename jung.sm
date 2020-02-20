@@ -1,0 +1,29 @@
+rule all_jung:
+    input:
+        expand("repeat_fragments_smallremoved_unique/V2-jung-{name}.bed", 
+               name=["SRR7504559",
+                     "SRR7504560",
+                     "SRR7504561",
+                     "SRR7504562"])
+
+rule import_jung:
+    output:
+        "reads/jung/{sra}_1.fastq.gz",
+        "reads/jung/{sra}_2.fastq.gz",
+    shell:
+        """
+        fastq-dump --split-files --gzip {wildcards.sra} -O jung/
+        """
+
+rule merge_jung:
+    input:
+        "reads/jung/{sra}_1.fastq.gz",
+        "reads/jung/{sra}_2.fastq.gz",
+    output:
+        "merged_reads/jung-{sra}_R1.fastq.gz",
+        "merged_reads/jung-{sra}_R2.fastq.gz"
+    shell:
+        """
+        mv {input[0]} {output[0]}
+        mv {input[1]} {output[1]}
+        """
