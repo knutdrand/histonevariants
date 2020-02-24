@@ -70,12 +70,19 @@ rule summarize_table:
         "repeat_enrichment/ALL.csv"
     shell:
         "cat $(echo '{input}') {input} > {output}"
+rule gzip:
+    input:
+        "{filename}"
+    output:
+        "{filename}.gz"
+    shell:
+        "gzip {input}"
 
 rule add_strand:
     input:
         "repeat_fragments_smallremoved_unique/{name}.bed"
     output:
-        "repeat_fragments_smallremoved_unique_w_strand/{name}.bed"
+        "repeat_fragments_smallremoved_unique_w_strand/{name}.bed.gz"
     shell:
         """zcat {input} | awk '{{OFS="\t"}}{{print $1,$2,$3,".",".","+"}}' > {output}"""
 
