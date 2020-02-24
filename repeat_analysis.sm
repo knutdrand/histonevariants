@@ -80,9 +80,9 @@ rule gzip:
 
 rule add_strand:
     input:
-        "repeat_fragments_smallremoved_unique/{name}.bed"
+        "repeat_fragments_smallremoved_unique/{name}.bed.gz"
     output:
-        "repeat_fragments_smallremoved_unique_w_strand/{name}.bed.gz"
+        "repeat_fragments_smallremoved_unique_w_strand/{name}.bed"
     shell:
         """zcat {input} | awk '{{OFS="\t"}}{{print $1,$2,$3,".",".","+"}}' > {output}"""
 
