@@ -1,6 +1,6 @@
 rule all_jung:
     input:
-        expand("repeat_fragments_smallremoved_unique/V2-jung-{name}.bed", 
+        expand("repeat_fragments_smallremoved_unique_w_strand/V2-jung-{name}.bed", 
                name=["SRR7504559",
                      "SRR7504560",
                      "SRR7504561",
